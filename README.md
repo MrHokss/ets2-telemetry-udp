@@ -47,3 +47,67 @@ Current JSON output (example):
   "clutch": 0.000,
   "cruise": 0.000
 }
+```
+## Installation
+
+### Linux (ETS2 / ATS)
+
+```bash
+git clone https://github.com/MrHokss/ets2-telemetry-udp.git
+cd ets2-telemetry-udp
+
+mkdir build
+cd build
+cmake ..
+cmake --build . -j
+```
+
+```bash
+mkdir -p ~/.steam/steam/steamapps/common/Euro\ Truck\ Simulator\ 2/bin/linux_x64/plugins
+cp libets2_telemetry_udp.so \
+~/.steam/steam/steamapps/common/Euro\ Truck\ Simulator\ 2/bin/linux_x64/plugins/
+```
+
+Start the game and confirm the SDK prompt.
+
+---
+
+### Windows (ETS2 / ATS)
+
+```bash
+git clone https://github.com/MrHokss/ets2-telemetry-udp.git
+cd ets2-telemetry-udp
+```
+
+Build the DLL (MinGW):
+
+```bash
+x86_64-w64-mingw32-g++ ^
+-shared ^
+-o ets2_telemetry_udp.dll ^
+src/telemetry.cpp ^
+-Iinclude ^
+-lws2_32
+```
+
+Copy the DLL to:
+
+```
+<SteamLibrary>\steamapps\common\Euro Truck Simulator 2\bin\win_x64\plugins\
+```
+
+Start the game and confirm the SDK prompt.
+
+---
+
+### Verify telemetry output
+
+```bash
+nc -klu 49001
+```
+
+Expected output:
+
+```json
+{"speed":0.540,"rpm":550.5,"gear":1,"dgear":1,"steer":0.000,"throttle":0.000,"brake":0.000,"clutch":0.000,"cruise":0.000}
+```
